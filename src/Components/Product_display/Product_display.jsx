@@ -3,12 +3,13 @@ import DataTable from 'react-data-table-component'
 import { useProductContext } from '../Context/Context';
 import './Product_display.css'
 import Multiselect from 'multiselect-react-dropdown';
+import { readFile } from 'xlsx';
 
 
 const Filter = () => {
  
   const{KeyVal,products,number,mod5,mod3,mod4,mod6,tableContent}=useProductContext(); //variables 
-  const{handle_number_select,handle_number_mod3,handle_number_mod4,handle_number_mod5,handle_number_mod6}=useProductContext();  //functions
+  const{readfile,handle_number_select,handle_number_mod3,handle_number_mod4,handle_number_mod5,handle_number_mod6}=useProductContext();  //functions
 
 let column=[]
 if (products.length>0) {
@@ -18,8 +19,10 @@ if (products.length>0) {
   return (
     <>
 
-  <h1>Filter Optimization Project</h1>
-
+ <div className='Heading'> 
+ <h1>Filter Optimization Project</h1>
+<input type="file" onChange={(e)=>readfile(e)} />
+</div>
 <div className='ProductFlexbox'>
     <div className='FilterOptionContainer'>
 
@@ -99,6 +102,9 @@ if (products.length>0) {
       
     </div>
 </div>
+
+
+
 </>
     
   )
@@ -134,4 +140,5 @@ export default Filter
   </tbody>
 
 </table>)} */}
+
 

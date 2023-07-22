@@ -34,24 +34,21 @@ const initialstate={
    
 }
 
-const fileURL= './public/dataset_small.xlsx';
-
 const AppProvider= ({children})=>{
    
     
     const [state,dispatch]=useReducer(reducer,initialstate)
    
-    const readfile=async(URL)=>{
-    
-        const res= await axios.get(URL, { responseType: 'arraybuffer' });
-        const data = new Uint8Array(res.data);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        
-        dispatch({type:"SET_API_DATA",payload:jsonData});
+    const readfile=async(e)=>{
+      const file =e.target.files[0];
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data);
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      console.log(jsonData);  
+      dispatch({type:"SET_API_DATA",payload:jsonData});
       };
-
+     
 
       const handle_number_select = (selectedList) => {
         dispatch({type:"GET_NUMBER_SELECTED_DATA",payload:selectedList});
@@ -154,11 +151,9 @@ const AppProvider= ({children})=>{
         dispatch({type:"UPDATE_TABLE_MOD6",payload:selectedList}); 
       };
 
-     useEffect(()=>{
-        readfile(fileURL);
-     },[])
+     
 
-    return <AppContext.Provider value={{...state,handle_number_select,handle_number_mod3,handle_number_mod4,handle_number_mod5,handle_number_mod6}}>{children}</AppContext.Provider>;
+    return <AppContext.Provider value={{...state,readfile,handle_number_select,handle_number_mod3,handle_number_mod4,handle_number_mod5,handle_number_mod6}}>{children}</AppContext.Provider>;
 };
 
 const useProductContext =()=>{

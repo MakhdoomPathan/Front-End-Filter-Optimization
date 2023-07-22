@@ -19,6 +19,12 @@
     margin-top: 30px;
    
 }
-h1{
-    text-align: center;
+
+.Heading{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+   margin-bottom: 30px;
 }
